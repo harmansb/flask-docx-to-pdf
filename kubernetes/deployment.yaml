@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: flask-container
-        image: <your-dockerhub-username>/flask-docx-to-pdf:latest
+        image: <harmans0001>/flask-docx-to-pdf:latest
         ports:
         - containerPort: 5000
         resources:
