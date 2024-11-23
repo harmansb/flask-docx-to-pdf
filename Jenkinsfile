@@ -4,8 +4,7 @@ pipeline {
     environment {
         AWS_REGION = 'ap-south-1'
         EKS_CLUSTER_NAME = 'flask-app-cluster'
-        IMAGE_NAME = 'flask-app'
-        ECR_REPOSITORY_URI = '123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-repository'
+        DOCKERHUB_IMAGE_NAME = 'harmans0001/flask-docx-to-pdf:final-version'  
     }
 
     stages {
@@ -15,46 +14,22 @@ pipeline {
             }
         }
 
-        stage('AWS CLI Setup') {
-            steps {
-                script {
-                    sh """
-                        aws configure set region ${AWS_REGION}
-                        aws sts get-caller-identity
-                    """
-                }
-            }
-        }
-
-        stage('EKS Authentication') {
-            steps {
-                script {
-                    sh """
-                        aws eks --region ${AWS_REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}
-                    """
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
                     sh """
-                        docker build -t ${IMAGE_NAME}:latest .
+                        docker build -t ${DOCKERHUB_IMAGE_NAME} .
                     """
                 }
             }
         }
 
-        stage('Push Docker Image to ECR') {
+        stage('Push Docker Image to DockerHub') {
             steps {
                 script {
                     sh """
-                        $(aws ecr get-login --no-include-email --region ${AWS_REGION})
-                    """
-                    sh """
-                        docker tag ${IMAGE_NAME}:latest ${ECR_REPOSITORY_URI}:${IMAGE_NAME}:latest
-                        docker push ${ECR_REPOSITORY_URI}:${IMAGE_NAME}:latest
+                        echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+                        docker push ${DOCKERHUB_IMAGE_NAME}
                     """
                 }
             }
@@ -64,8 +39,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                        kubectl apply -f kubernetes/deployment.yaml
-                        kubectl apply -f kubernetes/service.yaml
+                        aws eks --region ${AWS_REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}
+                        kubectl set image deployment/flask-app flask-container=${DOCKERHUB_IMAGE_NAME} --namespace=flask-namespace
                     """
                 }
             }
@@ -81,4 +56,3 @@ pipeline {
         }
     }
 }
-
