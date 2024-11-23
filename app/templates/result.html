@@ -17,10 +17,10 @@
         <div class="metadata">
             <h2>File Metadata:</h2>
             <ul>
-                <li><strong>Title:</strong> {{ metadata['title'] }}</li>
-                <li><strong>Author:</strong> {{ metadata['author'] }}</li>
-                <li><strong>Creation Date:</strong> {{ metadata['creation_date'] }}</li>
-                <li><strong>Modified Date:</strong> {{ metadata['modified_date'] }}</li>
+                <li><strong>Title:</strong> {{ metadata['title'] if metadata['title'] else 'Not Available' }}</li>
+                <li><strong>Author:</strong> {{ metadata['author'] if metadata['author'] else 'Not Available' }}</li>
+                <li><strong>Creation Date:</strong> {{ metadata['created'] if metadata['created'] else 'Not Available' }}</li>
+                <li><strong>Modified Date:</strong> {{ metadata['modified'] if metadata['modified'] else 'Not Available' }}</li>
             </ul>
         </div>
 
