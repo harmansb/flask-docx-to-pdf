@@ -7,6 +7,10 @@ A simple web application built using Flask that allows users to upload DOCX file
 - Convert DOCX files to PDF.
 - REST API for easy integration.
 
+## Hosted Application
+You can access the hosted application here:  
+**[Flask DOCX to PDF Converter](http://a6e3b39e5ea6341baa15f89fa9a594ce-713884598.ap-south-1.elb.amazonaws.com:5000/)**
+
 ## Technologies Used
 - **Flask**: A lightweight web framework for Python.
 - **Docker**: Containerization of the Flask application.
