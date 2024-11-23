@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'flask-docx-to-pdf:latest'
-        AWS_REGION = 'us-east-1'  // Modify to your region
-        EKS_CLUSTER_NAME = 'flask-app-cluster'  // Modify to your EKS cluster name
+        DOCKER_IMAGE = 'harmans0001/flask-docx-to-pdf:latest'  
+        AWS_REGION = 'ap-south-1'  
+        EKS_CLUSTER_NAME = 'flask-app-cluster'  
     }
 
     stages {
@@ -17,8 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
-                }
+                    docker.build(DOCKER_IMAGE)  
             }
         }
 
@@ -34,7 +33,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
-                        docker.image(DOCKER_IMAGE).push()
+                        docker.image(DOCKER_IMAGE).push() 
                     }
                 }
             }
@@ -48,8 +47,8 @@ pipeline {
                     '''
 
                     sh '''
-                        kubectl apply -f deployment.yaml
-                        kubectl apply -f service.yaml
+                        kubectl apply -f kubernetes/deployment.yaml  // Ensure path is correct to your yaml file
+                        kubectl apply -f kubernetes/service.yaml
                     '''
 
                     sh '''
