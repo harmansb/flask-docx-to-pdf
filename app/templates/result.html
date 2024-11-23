@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversion Complete - Docx to PDF</title>
+    <!-- Correct way to link CSS in Flask -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Conversion Complete!</h1>
+            <p>Your DOCX file has been successfully converted to a PDF.</p>
+        </div>
+
+        <div class="metadata">
+            <h2>File Metadata:</h2>
+            <ul>
+                <li><strong>Title:</strong> {{ metadata['title'] }}</li>
+                <li><strong>Author:</strong> {{ metadata['author'] }}</li>
+                <li><strong>Creation Date:</strong> {{ metadata['creation_date'] }}</li>
+                <li><strong>Modified Date:</strong> {{ metadata['modified_date'] }}</li>
+            </ul>
+        </div>
+
+        <div class="download-section">
+            <p><strong>Download your secure PDF:</strong></p>
+            <a href="{{ url_for('download', filename=pdf_file) }}" class="download-button">Download PDF</a>
+        </div>
+    </div>
+</body>
+</html>
