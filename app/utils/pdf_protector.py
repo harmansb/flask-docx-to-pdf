@@ -7,7 +7,7 @@ def protect_pdf(pdf_path, password):
     writer.append(pdf_path)
     writer.encrypt(password)
 
-    # Construct the protected PDF path in the upload folder
+   
     protected_path = os.path.join(app.root_path, "uploads", os.path.basename(pdf_path).replace(".pdf", "_protected.pdf"))
     
     with open(protected_path, "wb") as f:

@@ -32,6 +32,6 @@ def index():
 
 @app.route("/download/<path:filename>")
 def download(filename):
-    # Resolve the full path of the file
+    
     full_path = os.path.join(app.root_path, filename)
     return send_file(full_path, as_attachment=True)
